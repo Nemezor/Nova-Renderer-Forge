@@ -9,17 +9,14 @@ import com.continuum.nova.injector.NovaCorePlugin;
 import com.continuum.nova.injector.NovaTransformer;
 import com.continuum.nova.injector.Tokens;
 
-public class EntityRendererTransformer extends NovaTransformer {
+public class DynamicTextureTransformer extends NovaTransformer {
 
 	@Override
 	public void initialize() {
-		setClassName("net.minecraft.client.renderer.EntityRenderer", "???");
+		setClassName("net.minecraft.client.renderer.texture.DynamicTexture", "???");
 		
-		addField("fogColorRedField", "fogColorRed", "???");
-		addField("fogColorGreenField", "fogColorGreen", "???");
-		addField("fogColorBlueField", "fogColorBlue", "???");
-		addField("lightmapTextureField", "lightmapTexture", "???");
-		addField("lightmapUpdateNeededField", "lightmapUpdateNeeded", "???");
+		addField("widthField", "width", "???");
+		addField("heightField", "height", "???");
 	}
 
 	@Override
@@ -29,7 +26,7 @@ public class EntityRendererTransformer extends NovaTransformer {
 
 	@Override
 	public void transformField(String name, FieldNode field, Tokens tokens) {
-		if (name.equals("fogColorRedField") || name.equals("fogColorGreenField") || name.equals("fogColorBlueField") || name.equals("lightmapTextureField") || name.equals("lightmapUpdateNeededField")) {
+		if (name.equals("widthField") || name.equals("heightField")) {
 			field.access &= ~Opcodes.ACC_PRIVATE;
 			field.access |= Opcodes.ACC_PUBLIC;
 		}

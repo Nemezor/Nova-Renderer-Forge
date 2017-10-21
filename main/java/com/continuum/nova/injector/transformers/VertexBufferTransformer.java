@@ -9,17 +9,13 @@ import com.continuum.nova.injector.NovaCorePlugin;
 import com.continuum.nova.injector.NovaTransformer;
 import com.continuum.nova.injector.Tokens;
 
-public class EntityRendererTransformer extends NovaTransformer {
+public class VertexBufferTransformer extends NovaTransformer {
 
 	@Override
 	public void initialize() {
-		setClassName("net.minecraft.client.renderer.EntityRenderer", "???");
+		setClassName("net.minecraft.client.renderer.VertexBuffer", "???");
 		
-		addField("fogColorRedField", "fogColorRed", "???");
-		addField("fogColorGreenField", "fogColorGreen", "???");
-		addField("fogColorBlueField", "fogColorBlue", "???");
-		addField("lightmapTextureField", "lightmapTexture", "???");
-		addField("lightmapUpdateNeededField", "lightmapUpdateNeeded", "???");
+		addField("vertexCountField", "vertexCount", "???");
 	}
 
 	@Override
@@ -29,9 +25,9 @@ public class EntityRendererTransformer extends NovaTransformer {
 
 	@Override
 	public void transformField(String name, FieldNode field, Tokens tokens) {
-		if (name.equals("fogColorRedField") || name.equals("fogColorGreenField") || name.equals("fogColorBlueField") || name.equals("lightmapTextureField") || name.equals("lightmapUpdateNeededField")) {
+		if (name.equals("vertexCountField")) {
 			field.access &= ~Opcodes.ACC_PRIVATE;
-			field.access |= Opcodes.ACC_PUBLIC;
+			field.access |= Opcodes.ACC_PROTECTED;
 		}
 	}
 

@@ -4,11 +4,19 @@ import java.awt.Color;
 import java.util.Map;
 import java.util.Optional;
 
+import com.continuum.nova.NovaNative;
+import com.continuum.nova.NovaRenderer;
 import com.continuum.nova.gui.MemoryTextureAtlasSprite;
 import com.continuum.nova.gui.NovaDraw;
+import com.continuum.nova.input.Keyboard;
+import com.continuum.nova.input.Mouse;
 import com.google.common.collect.Lists;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BlockFluidRenderer;
+import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.Stitcher;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -16,6 +24,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class Interface {
 
+	private static NovaRenderer nova;
+	
 	public static ResourceLocation textureAtlasSprite_getLocation(TextureAtlasSprite textureAtlasSprite) {
 		return textureAtlasSprite.location;
 	}
@@ -75,6 +85,18 @@ public class Interface {
     	return entityRenderer.fogColorBlue;
     }
     
+    public static DynamicTexture entityRenderer_getLightmap(EntityRenderer entityRenderer) {
+    	return entityRenderer.lightmapTexture;
+    }
+    
+    public static boolean entityRenderer_isLightmapUpdateNeeded(EntityRenderer entityRenderer) {
+    	return entityRenderer.lightmapUpdateNeeded;
+    }
+    
+    public static void entityRenderer_updateLightmap(EntityRenderer entityRenderer, float partialTicks) {
+    	entityRenderer.updateLightmap(partialTicks);
+    }
+    
     private static Color color = Color.white;
     
     public static void fontRenderer_setColor(float r, float g, float b, float a) {
@@ -100,6 +122,33 @@ public class Interface {
         NovaDraw.draw(locationFontTexture, indices, vertices);
 
         return (float)l;
-
+    }
+    
+    public static BlockFluidRenderer blockRendererDispatcher_getFluidRenderer(BlockRendererDispatcher blockRendererDispatcher) {
+    	return blockRendererDispatcher.fluidRenderer;
+    }
+    
+    public static int dynamicTexture_getWidth(DynamicTexture dynamicTexture) {
+    	return dynamicTexture.width;
+    }
+    
+    public static int dynamicTexture_getHeight(DynamicTexture dynamicTexture) {
+    	return dynamicTexture.height;
+    }
+    
+    public static boolean minecraft_preInitializeNova() {
+    	nova = new NovaRenderer();
+    	nova.preInit();
+    	Mouse.create();
+    	Keyboard.create();
+    	return NovaNative.INSTANCE.display_is_active();
+    }
+    
+    public static void minecraft_registerReloadListener() {
+    	Minecraft.getMinecraft().mcResourceManager.registerReloadListener(nova);
+    }
+    
+    public static void minecraft_loadStartupShaderpack() {
+    	nova.loadShaderpack("default", Minecraft.getMinecraft().blockColors);
     }
 }

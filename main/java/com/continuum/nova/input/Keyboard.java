@@ -160,7 +160,7 @@ public class Keyboard {
     private static final Map<String, Integer> keyMap = new HashMap(253);
     private static boolean created;
     private static boolean repeat_enabled;
-    private static final HashSet<Integer> keyDownBuffer = new HashSet<Integer>();
+    private static final HashSet<Integer> keyDownBuffer = new HashSet<>();
     private static Keyboard.KeyEvent current_event;
     private static boolean initialized;
 
@@ -228,7 +228,6 @@ public class Keyboard {
         current_event.character = (char) c.unicode_char;
         current_event.state = p.action!=0;
         current_event.repeat = p.action == 2;
-        System.out.println("Key: "+getKeyName(p.key)+"; Char: "+current_event.character+"; state: "+p.action +"; repeat: "+current_event.repeat);
         return true;
     }
 

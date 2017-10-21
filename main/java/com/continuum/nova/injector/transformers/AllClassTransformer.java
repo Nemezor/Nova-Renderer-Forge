@@ -9,6 +9,7 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.TypeInsnNode;
 
 public class AllClassTransformer {
 
@@ -33,7 +34,19 @@ public class AllClassTransformer {
 					}else if (node.owner.equals("org/lwjgl/input/Mouse")) {
 						node.owner = "com/continuum/nova/input/Mouse";
 					}else if (node.owner.equals("org/lwjgl/opengl/Display")) {
-						//TODO Display class
+						node.owner = "com/continuum/nova/NovaDisplay";
+					}
+				}else if (insn.getOpcode() == Opcodes.INVOKESPECIAL) {
+					MethodInsnNode node = (MethodInsnNode)insn;
+					
+					if (node.owner.equals("org/lwjgl/opengl/SharedDrawable")) {
+						node.owner = "com/continuum/nova/utils/SharedDrawable";
+					}
+				}else if (insn.getOpcode() == Opcodes.NEW) {
+					TypeInsnNode node = (TypeInsnNode)insn;
+					
+					if (node.desc.equals("org/lwjgl/opengl/SharedDrawable")) {
+						node.desc = "com/continuum/nova/utils/SharedDrawable";
 					}
 				}
 			}

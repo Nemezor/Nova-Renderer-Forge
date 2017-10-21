@@ -33,6 +33,13 @@ public class FontRendererTransformer extends NovaTransformer {
 		addToken("posYField", "posY", "???");
 		addToken("renderDefaultCharMethodDesc", "(IZFF[ILnet/minecraft/util/ResourceLocation;)F", "???");
 		addToken("fontRendererClassName", "net/minecraft/client/gui/FontRenderer", "???");
+		
+		addToken("localVariable_ch", "ch", "???");
+		addToken("localVariable_italic", "italic", "???");
+		addToken("localVariable_r", "r", "???");
+		addToken("localVariable_g", "g", "???");
+		addToken("localVariable_b", "b", "???");
+		addToken("localVariable_a", "a", "???");
 	}
 	
 	@Override
@@ -66,8 +73,8 @@ public class FontRendererTransformer extends NovaTransformer {
 					
 					method.localVariables.clear();
 					method.localVariables.add(new LocalVariableNode("this", "L" + tokens.lookup("fontRendererClassName") + ";", null, L0, L1, 0));
-					method.localVariables.add(new LocalVariableNode("ch", "I", null, L0, L1, 1));
-					method.localVariables.add(new LocalVariableNode("italic", "Z", null, L0, L1, 2));
+					method.localVariables.add(new LocalVariableNode(tokens.lookup("localVariable_ch"), "I", null, L0, L1, 1));
+					method.localVariables.add(new LocalVariableNode(tokens.lookup("localVariable_italic"), "Z", null, L0, L1, 2));
 
 					method.instructions.clear();
 					method.instructions.add(toInject);
@@ -98,10 +105,10 @@ public class FontRendererTransformer extends NovaTransformer {
 					
 					method.localVariables.clear();
 					method.localVariables.add(new LocalVariableNode("this", "L" + tokens.lookup("fontRendererClassName") + ";", null, L0, L1, 0));
-					method.localVariables.add(new LocalVariableNode("r", "F", null, L0, L1, 1));
-					method.localVariables.add(new LocalVariableNode("g", "F", null, L0, L1, 2));
-					method.localVariables.add(new LocalVariableNode("b", "F", null, L0, L1, 3));
-					method.localVariables.add(new LocalVariableNode("a", "F", null, L0, L1, 4));
+					method.localVariables.add(new LocalVariableNode(tokens.lookup("localVariable_r"), "F", null, L0, L1, 1));
+					method.localVariables.add(new LocalVariableNode(tokens.lookup("localVariable_g"), "F", null, L0, L1, 2));
+					method.localVariables.add(new LocalVariableNode(tokens.lookup("localVariable_b"), "F", null, L0, L1, 3));
+					method.localVariables.add(new LocalVariableNode(tokens.lookup("localVariable_a"), "F", null, L0, L1, 4));
 
 					method.instructions.clear();
 					method.instructions.add(toInject);
